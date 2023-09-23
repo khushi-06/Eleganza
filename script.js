@@ -1,63 +1,68 @@
-function init (){
-    gsap.registerPlugin(ScrollTrigger);
+// Initialize Locomotive Scroll
+function initLocoScroll() {
+  const locoScroll = new LocomotiveScroll({
+      el: document.querySelector(".main"),
+      smooth: true
+  });
 
-// Using Locomotive Scroll from Locomotive https://github.com/locomotivemtl/locomotive-scroll
+  // Update ScrollTrigger when Locomotive Scroll updates
+  locoScroll.on("scroll", ScrollTrigger.update);
 
-const locoScroll = new LocomotiveScroll({
-  el: document.querySelector(".main"),
-  smooth: true
-});
-// each time Locomotive Scroll updates, tell ScrollTrigger to update too (sync positioning)
-locoScroll.on("scroll", ScrollTrigger.update);
+  // Set up ScrollTrigger proxy for the ".main" element
+  ScrollTrigger.scrollerProxy(".main", {
+      scrollTop(value) {
+          return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
+      },
+      getBoundingClientRect() {
+          return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+      },
+      pinType: document.querySelector(".main").style.transform ? "transform" : "fixed"
+  });
 
-// tell ScrollTrigger to use these proxy methods for the ".main" element since Locomotive Scroll is hijacking things
-ScrollTrigger.scrollerProxy(".main", {
-  scrollTop(value) {
-    return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
-  }, // we don't have to define a scrollLeft because we're only scrolling vertically.
-  getBoundingClientRect() {
-    return {top: 0, left: 0, width: window.innerWidth, height: window.innerHeight};
-  },
-  // LocomotiveScroll handles things completely differently on mobile devices - it doesn't even transform the container at all! So to get the correct behavior and avoid jitters, we should pin things with position: fixed on mobile. We sense it by checking to see if there's a transform applied to the container (the LocomotiveScroll-controlled element).
-  pinType: document.querySelector(".main").style.transform ? "transform" : "fixed"
-});
+  // Refresh ScrollTrigger when the window updates
+  ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+  // After setup, refresh ScrollTrigger and update LocomotiveScroll
+  ScrollTrigger.refresh();
 
+  // Get all anchor links
+  const anchorLinks = document.querySelectorAll('a[href^="#"]');
 
-
-// each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
-ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
-
-// after everything is set up, refresh() ScrollTrigger and update LocomotiveScroll because padding may have been added for pinning, etc.
-ScrollTrigger.refresh();
-
+  // Add click event listeners to anchor links
+  anchorLinks.forEach(anchorLink => {
+      anchorLink.addEventListener('click', (e) => {
+          e.preventDefault(); // Prevent default anchor link behavior
+          const targetId = anchorLink.getAttribute('href').substring(1); // Get the target section's ID
+          const targetSection = document.getElementById(targetId); // Find the target section by ID
+          if (targetSection) {
+              // Scroll to the target section using Locomotive Scroll
+              locoScroll.scrollTo(targetSection);
+          }
+      });
+  });
 }
 
-init()
+// Initialize Locomotive Scroll
+initLocoScroll();
 
+// Set up GSAP animations with ScrollTrigger
+gsap.to(".hleft", {
+  x: 90,
+  scrollTrigger: {
+      trigger: ".hleft",
+      scroller: ".main",
+      start: "top 30%",
+      end: "top 0",
+      scrub: true
+  }
+});
 
-gsap.to(".hleft ",{
-    x:90,
-  
-    scrollTrigger:{
-        trigger:".hleft",
-        scroller:".main",
-        marker:true,
-        start:"top 30%",
-        end:"top 0",
-        scrub:true
-    }
-})
-
-gsap.to(".hright ",{
-    x:-50,
-  
-    scrollTrigger:{
-        trigger:".hleft",
-        scroller:".main",
-        marker:true,
-        start:"top 30%",
-        end:"top 0",
-        scrub:true
-    }
-})
-
+gsap.to(".hright", {
+  x: -50,
+  scrollTrigger: {
+      trigger: ".hleft",
+      scroller: ".main",
+      start: "top 30%",
+      end: "top 0",
+      scrub: true
+  }
+});
