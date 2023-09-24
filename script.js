@@ -66,3 +66,66 @@ gsap.to(".hright", {
       scrub: true
   }
 });
+
+// var crsr = document.querySelector(".cursor")
+// var boxes = document.querySelectorAll(".box")
+// boxes.forEach(function(elem){
+//     elem.addEventListener("mouseenter",function(){
+//         var att = elem.getAttribute("data-image")
+//         crsr.style.width = "470px"
+//         crsr.style.height = "370px"
+//         crsr.style.borderRadius = "0"
+//         crsr.style.backgroundImage = `url(${att})`
+//     })
+//     elem.addEventListener("mouseleave",function(){
+//         elem.style.backgroundColor = "transparent"
+//         crsr.style.width = "20px"
+//         crsr.style.height = "20px"
+//         crsr.style.borderRadius = "50%"
+//         crsr.style.backgroundImage = `none`
+//     })
+// })
+
+// // // Assuming you have an element with the ID "crsr"
+// // var crsr = document.getElementById("crsr");
+
+// var boxes = document.querySelectorAll(".box");
+// boxes.forEach(function(elem) {
+//     elem.addEventListener("mouseenter", function() {
+//         var att = elem.getAttribute("data-image");
+//         crsr.style.width = "470px";
+//         crsr.style.height = "370px";
+//         crsr.style.borderRadius = "0";
+//         crsr.style.backgroundImage = `url(${att})`;
+//     });
+//     elem.addEventListener("mouseleave", function() {
+//         // Reset the cursor styles or change them as needed
+//         crsr.style.width = "20px";
+//         crsr.style.height = "20px";
+//         crsr.style.borderRadius = "50%";
+//         crsr.style.backgroundImage = "none";
+//     });
+// });
+
+document.addEventListener("DOMContentLoaded", function() {
+  var crsr = document.querySelector(".cursor");
+  var boxes = document.querySelectorAll(".box");
+
+  boxes.forEach(function(elem) {
+      elem.addEventListener("mouseenter", function() {
+          var att = elem.getAttribute("data-image");
+          crsr.style.width = "470px";
+          crsr.style.height = "370px";
+          crsr.style.borderRadius = "0";
+          crsr.style.backgroundImage = `url(${att})`;
+      });
+
+      elem.addEventListener("mouseleave", function() {
+          elem.style.backgroundColor = "transparent";
+          crsr.style.width = "20px";
+          crsr.style.height = "20px";
+          crsr.style.borderRadius = "50%";
+          crsr.style.backgroundImage = "none";
+      });
+  });
+});
