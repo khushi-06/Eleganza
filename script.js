@@ -45,27 +45,46 @@ function initLocoScroll() {
 initLocoScroll();
 
 // Set up GSAP animations with ScrollTrigger
-gsap.to(".hleft", {
-  x: 90,
-  scrollTrigger: {
-      trigger: ".hleft",
-      scroller: ".main",
-      start: "top 30%",
-      end: "top 0",
-      scrub: true
-  }
-});
+// gsap.to(".hleft", {
+//   x: 90,
+//   scrollTrigger: {
+//       trigger: ".hleft",
+//       scroller: ".main",
+//       start: "top 30%",
+//       end: "top 0",
+//       scrub: true
+//   }
+// });
 
-gsap.to(".hright", {
-  x: -50,
-  scrollTrigger: {
-      trigger: ".hleft",
-      scroller: ".main",
-      start: "top 30%",
-      end: "top 0",
-      scrub: true
-  }
-});
+// gsap.to(".hright", {
+//   x: -50,
+//   scrollTrigger: {
+//       trigger: ".hleft",
+//       scroller: ".main",
+//       start: "top 30%",
+//       end: "top 0",
+//       scrub: true
+//   }
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // var crsr = document.querySelector(".cursor")
 // var boxes = document.querySelectorAll(".box")
